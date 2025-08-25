@@ -1,6 +1,6 @@
 # Navigate Minecraft menu with easily
 
-| Action            | Key |
+| Title Screen      | Key |
 |---------------    | --- |
 | SinglePlayer      | S   |
 | Multiplayer       | M   |
@@ -8,9 +8,18 @@
 | Options           | O   |
 | Quit Game         | Q   |
 
+| Game Menu             | Key |
+|---------------        | ----|
+| Back to Game          | B   |
+| Advancements          | S   |
+| Statistics            | S   |
+| Options               | o   |
+| Open to LAN           | L   |
+| Save and Quit to Title  | Q   |
 
 ### Supported Menus:
 - Title Screen
+- Game Menu
 
 > [!NOTE]
 > Always open for prs
