@@ -1,0 +1,37 @@
+{
+	"schemaVersion": 1,
+	"id": "use-my-keyboard",
+	"version": "${version}",
+	"name": "Use My Keyboard",
+	"description": "Use your keyboard to navigate between menus",
+  "authors": [
+		"Baturax"
+	],
+	"contact": {
+		"homepage": "https://baturax.com",
+		"sources": "https://github.com/baturax/Use-My-Keyboard"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/use-my-keyboard/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"client": [
+			"user.my.keyboard.UseMyKeyboardClient"
+		]
+	},
+	"mixins": [
+		{
+			"config": "use-my-keyboard.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.17.2",
+		"minecraft": "~1.21.8",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
