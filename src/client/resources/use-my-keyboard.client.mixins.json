@@ -1,11 +1,14 @@
 {
-	"required": true,
-	"package": "user.my.keyboard.mixin.client",
-	"compatibilityLevel": "JAVA_21",
-	"client": [
-		"ExampleClientMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
-	}
+  "required": true,
+  "package": "user.my.keyboard.mixin.client",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "TitleScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+    "TitleScreenMixin"
+  ]
 }
