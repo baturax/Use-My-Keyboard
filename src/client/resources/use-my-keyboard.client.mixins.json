@@ -3,6 +3,7 @@
   "package": "user.my.keyboard.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "GameMenuScreenMixin",
     "TitleScreenMixin"
   ],
   "injectors": {
