@@ -5,6 +5,7 @@
 | SinglePlayer      | S   |
 | Multiplayer       | M   |
 | Minecraft Realms  | R   |
+| Options           | O   |
 | Quit Game         | Q   |
 
 
