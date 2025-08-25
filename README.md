@@ -1,9 +1,16 @@
 # Navigate Minecraft menu with easily
 
-### Title Screen:
-- Singleplayer: S
-- Multiplayer: M
-- Minecraft Realms: R
-- Options: O
-- Quit Game: Q
+| Action            | Key |
+|---------------    | --- |
+| SinglePlayer      | S   |
+| Multiplayer       | M   |
+| Minecraft Realms  | R   |
+| Quit Game         | Q   |
+
+
+### Supported Menus:
+- Title Screen
+
+> [!NOTE]
+> Always open for prs
 
