@@ -20,9 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameMenuScreen.class)
 public abstract class GameMenuScreenMixin {
-
-    @Shadow
-
+    
     @Inject(method = "init", at = @At("TAIL"))
     private void init(CallbackInfo ci) {
         for (Element element : ((GameMenuScreen) (Object) (this)).children()) {
