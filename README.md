@@ -8,14 +8,16 @@
 | Options           | O   |
 | Quit Game         | Q   |
 
-| Game Menu             | Key |
-|---------------        | ----|
-| Back to Game          | B   |
-| Advancements          | S   |
-| Statistics            | S   |
-| Options               | o   |
-| Open to LAN           | L   |
+
+| Game Menu               | Key |
+|---------------          | ----|
+| Back to Game            | B   |
+| Advancements            | A   |
+| Statistics              | S   |
+| Options                 | O   |
+| Open to LAN             | L   |
 | Save and Quit to Title  | Q   |
+
 
 ### Supported Menus:
 - Title Screen
