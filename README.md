@@ -1,12 +1,12 @@
 # Navigate Minecraft menu with easily
 
-| Title Screen      | Key |
-|---------------    | --- |
-| SinglePlayer      | S   |
-| Multiplayer       | M   |
-| Minecraft Realms  | R   |
-| Options           | O   |
-| Quit Game         | Q   |
+| Title Screen            | Key |
+|---------------          | --- |
+| SinglePlayer            | S   |
+| Multiplayer             | M   |
+| Minecraft Realms        | R   |
+| Options                 | O   |
+| Quit Game               | Q   |
 
 
 | Game Menu               | Key |
