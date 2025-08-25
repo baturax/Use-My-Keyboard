@@ -1,7 +1,6 @@
 package user.my.keyboard.mixin.client;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.OpenToLanScreen;
 import net.minecraft.client.gui.screen.StatsScreen;
@@ -9,7 +8,6 @@ import net.minecraft.client.gui.screen.advancement.AdvancementsScreen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,34 +16,21 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import static user.my.keyboard.Utilities.changeText;
+
 @Mixin(GameMenuScreen.class)
 public abstract class GameMenuScreenMixin {
-    
+
     @Inject(method = "init", at = @At("TAIL"))
     private void init(CallbackInfo ci) {
-        for (Element element : ((GameMenuScreen) (Object) (this)).children()) {
-            if (element instanceof ButtonWidget button) {
-                String msg = button.getMessage().getString();
-                if (msg.equals(Text.translatable("menu.returnToGame").getString())) {
-                    button.setMessage(Text.literal(button.getMessage().getString() + " (B)"));
-                }
-                if (msg.equals(Text.translatable("gui.advancements").getString())) {
-                    button.setMessage(Text.literal(button.getMessage().getString() + " (A)"));
-                }
-                if (msg.equals(Text.translatable("gui.stats").getString())) {
-                    button.setMessage(Text.literal(button.getMessage().getString() + " (S)"));
-                }
-                if (msg.equals(Text.translatable("menu.options").getString())) {
-                    button.setMessage(Text.literal(button.getMessage().getString() + " (O)"));
-                }
-                if (msg.equals(Text.translatable("menu.shareToLan").getString())) {
-                    button.setMessage(Text.literal(button.getMessage().getString() + " (L)"));
-                }
-                if (msg.equals(Text.translatable("menu.returnToMenu").getString())) {
-                    button.setMessage(Text.literal(button.getMessage().getString() + " (Q)"));
-                }
-            }
-        }
+        GameMenuScreen screen = (GameMenuScreen) (Object) this;
+
+        changeText(screen, "menu.returnToGame", "B");
+        changeText(screen, "gui.advancements", "A");
+        changeText(screen, "gui.stats", "S");
+        changeText(screen, "menu.options", "O");
+        changeText(screen, "menu.shareToLan", "L");
+        changeText(screen, "menu.returnToMenu", "Q");
     }
 
     @Shadow
@@ -76,5 +61,5 @@ public abstract class GameMenuScreenMixin {
             assert exitButton != null;
             exitButton.onPress();
         }
-     }
+    }
 }
