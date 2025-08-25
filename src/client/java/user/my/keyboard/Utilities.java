@@ -1,8 +1,10 @@
 package user.my.keyboard;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 
 public class Utilities {
@@ -16,6 +18,11 @@ public class Utilities {
                 }
             }
         }
+    }
+
+    public static boolean isKeyPressed(int keyCode) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        return InputUtil.isKeyPressed(client.getWindow().getHandle(), keyCode);
     }
 
 }

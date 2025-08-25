@@ -7,7 +7,6 @@ import net.minecraft.client.gui.screen.StatsScreen;
 import net.minecraft.client.gui.screen.advancement.AdvancementsScreen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.util.InputUtil;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static user.my.keyboard.Utilities.changeText;
+import static user.my.keyboard.Utilities.isKeyPressed;
 
 @Mixin(GameMenuScreen.class)
 public abstract class GameMenuScreenMixin {
@@ -40,24 +40,24 @@ public abstract class GameMenuScreenMixin {
     private void onRenderHead(CallbackInfo ci) {
         MinecraftClient client = MinecraftClient.getInstance();
 
-        if (InputUtil.isKeyPressed(client.getWindow().getHandle(), GLFW.GLFW_KEY_B)) {
+        if (isKeyPressed(GLFW.GLFW_KEY_B)) {
             client.setScreen(null);
         }
-        if (InputUtil.isKeyPressed(client.getWindow().getHandle(), GLFW.GLFW_KEY_A)) {
+        if (isKeyPressed(GLFW.GLFW_KEY_A)) {
             assert client.player != null;
             client.setScreen(new AdvancementsScreen(client.player.networkHandler.getAdvancementHandler()));
         }
-        if (InputUtil.isKeyPressed(client.getWindow().getHandle(), GLFW.GLFW_KEY_S)) {
+        if (isKeyPressed(GLFW.GLFW_KEY_S)) {
             assert client.player != null;
             client.setScreen(new StatsScreen(client.currentScreen, client.player.getStatHandler()));
         }
-        if (InputUtil.isKeyPressed(client.getWindow().getHandle(), GLFW.GLFW_KEY_O)) {
+        if (isKeyPressed(GLFW.GLFW_KEY_O)) {
             client.setScreen(new OptionsScreen(client.currentScreen, client.options));
         }
-        if (InputUtil.isKeyPressed(client.getWindow().getHandle(), GLFW.GLFW_KEY_L)) {
+        if (isKeyPressed(GLFW.GLFW_KEY_L)) {
             client.setScreen(new OpenToLanScreen(client.currentScreen));
         }
-        if (InputUtil.isKeyPressed(client.getWindow().getHandle(), GLFW.GLFW_KEY_Q)) {
+        if (isKeyPressed(GLFW.GLFW_KEY_Q)) {
             assert exitButton != null;
             exitButton.onPress();
         }

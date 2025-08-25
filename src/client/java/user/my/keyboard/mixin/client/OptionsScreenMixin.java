@@ -5,6 +5,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
 import static user.my.keyboard.Utilities.changeText;
 
 @Mixin(OptionsScreen.class)
@@ -21,4 +22,5 @@ public class OptionsScreenMixin {
         changeText(screen, "options.skinCustomisation", "S");
         changeText(screen, "options.accessibility", "A"); // dikkat: spelling
     }
+
 }
