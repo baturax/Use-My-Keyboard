@@ -1,11 +1,14 @@
 package user.my.keyboard.mixin.client;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.gui.screen.multiplayer.*;
 import net.minecraft.client.network.ServerAddress;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.client.option.ServerList;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.screen.ScreenTexts;
+import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -57,11 +60,34 @@ public abstract class MultiPlayerScreenMixin {
             }
         }
         if (isKeyPressed(GLFW.GLFW_KEY_D)) {
-            // Delete Server
+            MultiplayerServerListWidget.Entry entry = this.serverListWidget.getSelectedOrNull();
+            if (entry instanceof MultiplayerServerListWidget.ServerEntry) {
+                String string = ((MultiplayerServerListWidget.ServerEntry)entry).getServer().name;
+                if (string != null) {
+                    Text text = Text.translatable("selectServer.deleteQuestion");
+                    Text text2 = Text.translatable("selectServer.deleteWarning", string);
+                    Text text3 = Text.translatable("selectServer.deleteButton");
+                    Text text4 = ScreenTexts.CANCEL;
+                    this.client.setScreen(new ConfirmScreen(this::removeEntry, text, text2, text3, text4));
+                }
+            }
         }
         if (isKeyPressed(GLFW.GLFW_KEY_R)) {
             client.setScreen(new MultiplayerScreen(client.currentScreen));
         }
+    }
+
+    @Unique
+    private void removeEntry(boolean confirmedAction) {
+        MultiplayerServerListWidget.Entry entry = this.serverListWidget.getSelectedOrNull();
+        if (confirmedAction && entry instanceof MultiplayerServerListWidget.ServerEntry) {
+            this.serverList.remove(((MultiplayerServerListWidget.ServerEntry)entry).getServer());
+            this.serverList.saveFile();
+            this.serverListWidget.setSelected(null);
+            this.serverListWidget.setServers(this.serverList);
+        }
+
+        this.client.setScreen(new MultiplayerScreen(client.currentScreen));
     }
 
     @Unique
