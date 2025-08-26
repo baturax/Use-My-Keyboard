@@ -47,7 +47,14 @@ public abstract class MultiPlayerScreenMixin {
             client.setScreen(new AddServerScreen(client.currentScreen, this::addEntry, selectedEntry));
         }
         if (isKeyPressed(GLFW.GLFW_KEY_E)) {
+            MultiplayerServerListWidget.Entry entry = serverListWidget.getSelectedOrNull();
 
+            if (entry instanceof MultiplayerServerListWidget.ServerEntry) {
+                ServerInfo serverInfo = ((MultiplayerServerListWidget.ServerEntry)entry).getServer();
+                selectedEntry = new ServerInfo(serverInfo.name, serverInfo.address, ServerInfo.ServerType.OTHER);
+                selectedEntry.copyWithSettingsFrom(serverInfo);
+                client.setScreen(new AddServerScreen(client.currentScreen, this::editEntry, selectedEntry));
+            }
         }
         if (isKeyPressed(GLFW.GLFW_KEY_D)) {
             // Delete Server
@@ -55,6 +62,21 @@ public abstract class MultiPlayerScreenMixin {
         if (isKeyPressed(GLFW.GLFW_KEY_R)) {
             client.setScreen(new MultiplayerScreen(client.currentScreen));
         }
+    }
+
+    @Unique
+    private void editEntry(boolean confirmedAction) {
+        MultiplayerServerListWidget.Entry entry = serverListWidget.getSelectedOrNull();
+        if (confirmedAction && entry instanceof MultiplayerServerListWidget.ServerEntry) {
+            ServerInfo serverInfo = ((MultiplayerServerListWidget.ServerEntry)entry).getServer();
+            serverInfo.name = selectedEntry.name;
+            serverInfo.address = selectedEntry.address;
+            serverInfo.copyWithSettingsFrom(selectedEntry);
+            serverList.saveFile();
+            serverListWidget.setServers(serverList);
+        }
+
+        client.setScreen(new MultiplayerScreen(client.currentScreen));
     }
 
     @Unique
