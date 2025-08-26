@@ -1,9 +1,7 @@
 package user.my.keyboard.mixin.client;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.multiplayer.ConnectScreen;
-import net.minecraft.client.gui.screen.multiplayer.DirectConnectScreen;
-import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
+import net.minecraft.client.gui.screen.multiplayer.*;
 import net.minecraft.client.network.ServerAddress;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.client.option.ServerList;
@@ -44,8 +42,12 @@ public abstract class MultiPlayerScreenMixin {
             selectedEntry = new ServerInfo(I18n.translate("selectServer.defaultName"), "", ServerInfo.ServerType.OTHER);
             client.setScreen(new DirectConnectScreen(client.currentScreen, this::directConnect, selectedEntry));
         }
+        if (isKeyPressed(GLFW.GLFW_KEY_A)) {
+            selectedEntry = new ServerInfo(I18n.translate("selectServer.defaultName"), "", ServerInfo.ServerType.OTHER);
+            client.setScreen(new AddServerScreen(client.currentScreen, this::addEntry, selectedEntry));
+        }
         if (isKeyPressed(GLFW.GLFW_KEY_E)) {
-            // Edit Server
+
         }
         if (isKeyPressed(GLFW.GLFW_KEY_D)) {
             // Delete Server
@@ -54,6 +56,28 @@ public abstract class MultiPlayerScreenMixin {
             client.setScreen(new MultiplayerScreen(client.currentScreen));
         }
     }
+
+    @Unique
+    private void addEntry(boolean confirmedAction) {
+        if (confirmedAction) {
+            ServerInfo serverInfo = serverList.tryUnhide(selectedEntry.address);
+            if (serverInfo != null) {
+                serverInfo.copyFrom(selectedEntry);
+                this.serverList.saveFile();
+            } else {
+                serverList.add(selectedEntry, false);
+                serverList.saveFile();
+            }
+
+            serverListWidget.setSelected(null);
+            serverListWidget.setServers(serverList);
+        }
+
+        client.setScreen(new MultiplayerScreen(client.currentScreen));
+    }
+
+    @Shadow
+    protected MultiplayerServerListWidget serverListWidget;
 
     @Shadow
     private ServerList serverList;
