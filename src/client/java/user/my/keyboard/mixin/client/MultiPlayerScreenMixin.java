@@ -32,6 +32,7 @@ public abstract class MultiPlayerScreenMixin {
         changeText(screen, "selectServer.edit", "E");
         changeText(screen, "selectServer.delete", "D");
         changeText(screen, "selectServer.refresh", "R");
+        changeText(screen, "gui.back", "B");
     }
 
     @Inject(method = "render", at = @At("HEAD"))
@@ -74,6 +75,9 @@ public abstract class MultiPlayerScreenMixin {
         }
         if (isKeyPressed(GLFW.GLFW_KEY_R)) {
             client.setScreen(new MultiplayerScreen(client.currentScreen));
+        }
+        if (isKeyPressed(GLFW.GLFW_KEY_B)) {
+            close();
         }
     }
 
@@ -132,6 +136,9 @@ public abstract class MultiPlayerScreenMixin {
 
     @Shadow
     public abstract void connect();
+
+    @Shadow
+    public abstract void close();
 
     @Unique
     private ServerInfo selectedEntry;
