@@ -14,6 +14,7 @@ import static user.my.keyboard.Utilities.isKeyPressed;
 @Mixin(MultiplayerScreen.class)
 public class MultiPlayerScreenMixin {
 
+
     @Inject(method = "init", at = @At("TAIL"))
     private void init(CallbackInfo info) {
         MultiplayerScreen screen = (MultiplayerScreen) (Object) (this);
@@ -41,10 +42,8 @@ public class MultiPlayerScreenMixin {
             // Delete Server
         }
         if (isKeyPressed(GLFW.GLFW_KEY_R)) {
-            // Refresh
+            client.setScreen(new MultiplayerScreen(client.currentScreen));
         }
 
     }
-
-
 }
