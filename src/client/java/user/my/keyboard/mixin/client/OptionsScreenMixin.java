@@ -22,5 +22,5 @@ public class OptionsScreenMixin {
         changeText(screen, "options.skinCustomisation", "S");
         changeText(screen, "options.accessibility", "A"); // dikkat: spelling
     }
-
+    // Will do here later idk
 }
