@@ -1,7 +1,6 @@
 package user.my.keyboard.mixin.client;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.multiplayer.ConnectScreen;
 import net.minecraft.client.gui.screen.multiplayer.DirectConnectScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
@@ -10,7 +9,6 @@ import net.minecraft.client.network.ServerInfo;
 import net.minecraft.client.option.ServerList;
 import net.minecraft.client.resource.language.I18n;
 import org.lwjgl.glfw.GLFW;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -22,11 +20,7 @@ import static user.my.keyboard.Utilities.changeText;
 import static user.my.keyboard.Utilities.isKeyPressed;
 
 @Mixin(MultiplayerScreen.class)
-public class MultiPlayerScreenMixin {
-
-    @Shadow
-    @Final
-    private Screen parent;
+public abstract class MultiPlayerScreenMixin {
 
     @Inject(method = "init", at = @At("TAIL"))
     private void init(CallbackInfo info) {
@@ -42,8 +36,9 @@ public class MultiPlayerScreenMixin {
     @Inject(method = "render", at = @At("HEAD"))
     private void onRenderHead(CallbackInfo ci) {
         MinecraftClient client = MinecraftClient.getInstance();
+
         if (isKeyPressed(GLFW.GLFW_KEY_J) || isKeyPressed(GLFW.GLFW_KEY_S)) {
-            // Join Server
+            connect();
         }
         if (isKeyPressed(GLFW.GLFW_KEY_C)) {
             selectedEntry = new ServerInfo(I18n.translate("selectServer.defaultName"), "", ServerInfo.ServerType.OTHER);
@@ -62,11 +57,15 @@ public class MultiPlayerScreenMixin {
 
     @Shadow
     private ServerList serverList;
+
+    @Shadow
+    public abstract void connect();
+
     @Unique
     private ServerInfo selectedEntry;
     @Unique
     private final MinecraftClient client = MinecraftClient.getInstance();
-    
+
     @Unique
     private void directConnect(boolean confirmedAction) {
         if (confirmedAction) {
