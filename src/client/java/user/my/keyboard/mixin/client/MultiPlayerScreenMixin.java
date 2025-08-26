@@ -1,9 +1,19 @@
 package user.my.keyboard.mixin.client;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.multiplayer.ConnectScreen;
+import net.minecraft.client.gui.screen.multiplayer.DirectConnectScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
+import net.minecraft.client.network.ServerAddress;
+import net.minecraft.client.network.ServerInfo;
+import net.minecraft.client.option.ServerList;
+import net.minecraft.client.resource.language.I18n;
 import org.lwjgl.glfw.GLFW;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -14,6 +24,9 @@ import static user.my.keyboard.Utilities.isKeyPressed;
 @Mixin(MultiplayerScreen.class)
 public class MultiPlayerScreenMixin {
 
+    @Shadow
+    @Final
+    private Screen parent;
 
     @Inject(method = "init", at = @At("TAIL"))
     private void init(CallbackInfo info) {
@@ -33,7 +46,8 @@ public class MultiPlayerScreenMixin {
             // Join Server
         }
         if (isKeyPressed(GLFW.GLFW_KEY_C)) {
-            // Direct Connect
+            selectedEntry = new ServerInfo(I18n.translate("selectServer.defaultName"), "", ServerInfo.ServerType.OTHER);
+            client.setScreen(new DirectConnectScreen(client.currentScreen, this::directConnect, selectedEntry));
         }
         if (isKeyPressed(GLFW.GLFW_KEY_E)) {
             // Edit Server
@@ -44,6 +58,33 @@ public class MultiPlayerScreenMixin {
         if (isKeyPressed(GLFW.GLFW_KEY_R)) {
             client.setScreen(new MultiplayerScreen(client.currentScreen));
         }
+    }
 
+    @Shadow
+    private ServerList serverList;
+    @Unique
+    private ServerInfo selectedEntry;
+    @Unique
+    private final MinecraftClient client = MinecraftClient.getInstance();
+    
+    @Unique
+    private void directConnect(boolean confirmedAction) {
+        if (confirmedAction) {
+            ServerInfo serverInfo = serverList.get(selectedEntry.address);
+            if (serverInfo == null) {
+                serverList.add(selectedEntry, true);
+                serverList.saveFile();
+                connect(selectedEntry);
+            } else {
+                connect(serverInfo);
+            }
+        } else {
+            client.setScreen(null);
+        }
+    }
+
+    @Unique
+    private void connect(ServerInfo entry) {
+        ConnectScreen.connect(client.currentScreen, client, ServerAddress.parse(entry.address), entry, false, null);
     }
 }
