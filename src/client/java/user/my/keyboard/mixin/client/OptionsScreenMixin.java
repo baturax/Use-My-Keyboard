@@ -15,12 +15,15 @@ public class OptionsScreenMixin {
     private void init(CallbackInfo ci) {
         OptionsScreen screen = (OptionsScreen) (Object) this;
 
+        changeText(screen, "options.skinCustomisation", "S");
+        changeText(screen, "options.sounds", "M");
         changeText(screen, "options.video", "V");
         changeText(screen, "options.controls", "C");
         changeText(screen, "options.language", "L");
+        changeText(screen, "options.chat", "T");
         changeText(screen, "options.resourcepack", "R");
-        changeText(screen, "options.skinCustomisation", "S");
-        changeText(screen, "options.accessibility", "A"); // dikkat: spelling
+        changeText(screen, "options.accessibility", "A");
+
     }
     // Will do here later idk
 }
