@@ -49,9 +49,12 @@ public class UseMyKeyboardClient implements ClientModInitializer {
                         Text.translatable("resourcePack.title")
                 ));
             }
-
             if (InputUtil.isKeyPressed(handle, GLFW.GLFW_KEY_A)) {
                 client.setScreen(new ControlsOptionsScreen(client.currentScreen, client.options));
+            }
+            if (InputUtil.isKeyPressed(handle, GLFW.GLFW_KEY_B)) {
+                // Can somebody fix this
+                client.setScreen(null);
             }
         });
     }

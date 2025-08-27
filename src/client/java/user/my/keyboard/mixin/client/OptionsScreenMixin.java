@@ -1,6 +1,9 @@
 package user.my.keyboard.mixin.client;
 
 import net.minecraft.client.gui.screen.option.OptionsScreen;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.screen.ScreenTexts;
+import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -23,7 +26,15 @@ public class OptionsScreenMixin {
         changeText(screen, "options.chat", "T");
         changeText(screen, "options.resourcepack", "R");
         changeText(screen, "options.accessibility", "A");
+        screen.children().forEach(element -> {
+            if (element instanceof ButtonWidget button) {
+                String msg = button.getMessage().getString();
+                if (button.getMessage().equals(ScreenTexts.DONE)) {
+                    button.setMessage(Text.literal(msg + " (B)"));
+                }
+            }
+        });
+
 
     }
-    // Will do here later idk
 }

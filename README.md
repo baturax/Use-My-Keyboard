@@ -8,7 +8,6 @@
 | Options          | O   |
 | Quit Game        | Q   |
 
-
 | Game Menu              | Key |
 |------------------------|-----|
 | Back to Game           | B   |
@@ -28,10 +27,17 @@
 | Refresh           | R   |
 | Back              | B   |
 
-
-### Supported Menus:
-- Title Screen
-- Game Menu
+| Options                | Key |
+|------------------------|-----|
+| Skin Customization     | S   |
+| Music & Sounds         | M   |
+| Video Settings         | V   |
+| Control                | C   |
+| Language               | L   |
+| Chat Settings          | T   |
+| Resource Packs         | R   |
+| Accessibility Settings | A   |
+| Done                   | B   |
 
 > [!NOTE]
 > Always open for prs
