@@ -6,7 +6,9 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.world.CreateWorldScreen;
 import net.minecraft.client.gui.screen.world.SelectWorldScreen;
 import net.minecraft.client.gui.screen.world.WorldListWidget;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,25 +20,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
+import static net.minecraft.world.level.storage.LevelSummary.SELECT_WORLD_TEXT;
 import static user.my.keyboard.Utilities.changeText;
 import static user.my.keyboard.Utilities.isKeyPressed;
 
 @Mixin(SelectWorldScreen.class)
-public class SinglePlayerScreenMixin {
-
+public class SelectWorldScreenMixin {
     @Shadow
     private WorldListWidget levelList;
     @Final
     @Shadow
     protected Screen parent;
-
     @Shadow
     protected TextFieldWidget searchBox;
 
-    @Unique
-    public TextFieldWidget getSearchBox() {
-        return searchBox;
-    }
 
     @Inject(method = "init", at = @At("TAIL"))
     private void init(CallbackInfo ci) {
@@ -46,12 +43,26 @@ public class SinglePlayerScreenMixin {
         changeText(screen, "selectWorld.delete", "D");
         changeText(screen, "selectWorld.recreate", "R");
         changeText(screen, "gui.back", "B");
+        screen.children().forEach(element -> {
+            if (element instanceof ButtonWidget button) {
+                String msg = button.getMessage().getString();
+
+                if (button.getMessage().equals(SELECT_WORLD_TEXT)) {
+                    button.setMessage(Text.literal(msg + " (J/P)"));
+                }
+
+
+            }
+        });
     }
 
     @Inject(method = "render", at = @At("HEAD"))
     private void onKeyPressed(DrawContext context, int mouseX, int mouseY, float deltaTicks, CallbackInfo ci) {
         MinecraftClient client = MinecraftClient.getInstance();
 
+        if (isKeyPressed(GLFW.GLFW_KEY_J) || isKeyPressed(GLFW.GLFW_KEY_P)) {
+            levelList.getSelectedAsOptional().ifPresent(WorldListWidget.WorldEntry::play);
+        }
         if (isKeyPressed(GLFW.GLFW_KEY_C)) {
             CreateWorldScreen.show(client, (SelectWorldScreen) (Object) this);
         }
@@ -69,6 +80,7 @@ public class SinglePlayerScreenMixin {
         }
         if (isKeyPressed(GLFW.GLFW_KEY_S)) {
             searchBox.setFocused(true);
+            searchBox.setCentered(true);
         }
 
         // Select
