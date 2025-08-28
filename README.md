@@ -19,7 +19,7 @@
 
 | Multiplayer       | Key |
 |-------------------|-----|
-| Join Server       | J   |
+| Join Server       | J/S |
 | Direct Connection | C   |
 | Add Server        | A   |
 | Edit              | E   |
@@ -38,6 +38,16 @@
 | Resource Packs         | R   |
 | Accessibility Settings | A   |
 | Done                   | B   |
+
+| Select World        | Key |
+|---------------------|-----|
+| Play Selected World | J/P |
+| Create New World    | C   |
+| Edit                | E   |
+| Delete              | D   |
+| Re-Create           | R   |
+| Back                | B   |
+
 
 > [!NOTE]
 > Always open for prs
