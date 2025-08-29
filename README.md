@@ -1,4 +1,4 @@
-# Navigate Minecraft menu with easily
+# Navigate minecraft menus using your keyboard
 
 | Title Screen     | Key |
 |------------------|-----|
